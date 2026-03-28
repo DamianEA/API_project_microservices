@@ -2,27 +2,41 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Drive.Models;
-
+[Table("users")]
 public class User
 {
     [Key]
-    [Required]
-    public int Id { get; set; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [Column("id")]
+    public int id { get; set; }
 
     [Required]
-    public DateTime Birth { get; set; }
+    [Column("name")]
+    public string name { get; set; } = null!;
 
     [Required]
-    public string Name { get; set; } = null!;
+    [Column("email")]
+    public string email { get; set; } = null!;
 
     [Required]
-    public string Email { get; set; } = null!;
+    [Column("pass")]
+    public string pass { get; set; } = null!;
 
+    private DateTime _birth;
     [Required]
-    public string Password { get; set; } = null!;
-
+    [Column("birth")]
+    public DateTime birth 
+    { 
+        get => _birth; 
+        set => _birth = DateTime.SpecifyKind(value, DateTimeKind.Utc); 
+    }
+    
+    [Required]
+    [Column("roll")]
+    public string roll { get; set; } = null!;
 
     public static string GetHash(string input)
     {
@@ -38,29 +52,29 @@ public class UserCredentials
     public string Email { get; set; } = null!;
 
     [Required]
-    public string Password { get; set; } = null!;
+    public string pass { get; set; } = null!;
 }
 
 public class CreateUser
 {
     [Required]
-    public string? Name { get; set; }
+    public string name { get; set; } = string.Empty;
 
     [EmailAddress(ErrorMessage = "La dirección no pertenece a un dirección de correo válida")]
     [Required(ErrorMessage = "El campo es obligatorio")]
-    public string? Email { get; set; }
+    public string Email { get; set; } = string.Empty;
 
     [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
     [Required]
-    public DateTime Birth { get; set; }
+    public DateTime birth { get; set; }
 
     [DataType(DataType.Password)]
     [Required]
-    public string? Password { get; set; }
+    public string pass { get; set; } = string.Empty;
 
-    [DataType(DataType.Password)]
+    [DataType(DataType.Password )]
     [Required]
-    [Compare("Password", ErrorMessage = "Las contraseñas no coinciden")]
+    [Compare("pass", ErrorMessage = "Las contraseñas no coinciden")]
     [DisplayName("Password Confirm")]
-    public string? PasswordConfirm { get; set; }
+    public string PasswordConfirm { get; set; } = string.Empty;
 }

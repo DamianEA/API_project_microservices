@@ -1,0 +1,44 @@
+# Drive API - Backend Service
+
+## Descripción General
+Este repositorio contiene el código fuente de la API Backend para el sistema **Drive**. El servicio está diseñado para gestionar usuarios, archivos y permisos, proporcionando una interfaz robusta y escalable construida sobre el ecosistema .NET y respaldada por una base de datos PostgreSQL.
+
+## Arquitectura
+El proyecto sigue un enfoque basado en controladores web (Web API) estructurado de la siguiente manera:
+* **Framework:** ASP.NET Core Web API (.NET 9).
+* **ORM:** Entity Framework Core (EF Core) con el proveedor de Npgsql.
+* **Base de Datos:** PostgreSQL.
+* **Documentación y Pruebas:** Scalar / OpenAPI.
+* **Patrones:** Uso de DTOs (Data Transfer Objects) para la validación de entrada (ej. `CreateUser`) y Modelos de Entidad mapeados directamente a la base de datos.
+
+---
+
+## Prerrequisitos
+
+Para levantar este proyecto en un entorno de desarrollo local, asegúrate de tener instaladas las siguientes herramientas:
+
+1. **Entorno de Ejecución (.NET):**
+   * [Instalador para Windows x64 (.NET Runtime 9.0.14)](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-9.0.14-windows-x64-installer?cid=getdotnetcore)
+   * [Scripts de instalación para Linux](https://learn.microsoft.com/en-us/dotnet/core/install/linux-scripted-manual#scripted-install)
+2. **Motor de Base de Datos:**
+   * [PostgreSQL (Instaladores de EnterpriseDB)](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
+3. **Herramientas de Cliente de BD:** pgAdmin 4 o DBeaver (Recomendado para verificar estructuras).
+
+---
+
+## ⚙️ Configuración del Entorno y Dependencias
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone <url-del-repositorio>
+   cd Drive.API
+
+## Restaurar paquetes NuGet:
+El proyecto utiliza dependencias específicas para la conexión con PostgreSQL. Ejecuta el siguiente comando en tu terminal para instalarlas:
+
+    dotnet restore
+
+## Para ejecutar con recarga en caliente (Hot Reload) durante el desarrollo
+    dotnet watch run
+## con scalar 
+    http://localhost:<PUERTO>/scalar/v1

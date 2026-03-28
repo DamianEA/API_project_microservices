@@ -1,23 +1,31 @@
 using Drive.Models;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql;
+//using Pomelo.EntityFrameworkCore.MySql;
 using Scalar.AspNetCore;
+using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
-builder.Services.AddDbContext<DefaultDbContext>(options => options.UseMySql(connectionString, serverVersion));
+// 1. Definir la cadena de conexión (mejor si está aquí o en appsettings.json)
+var connString = "Host=localhost;Username=postgres;Password=PUTA0011;Database=users";
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+// 2. Configurar el DbContext correctamente
+builder.Services.AddDbContextPool<DefaultDbContext>(opt =>
+    opt.UseNpgsql(connString) // Usamos la variable directa para evitar el error de 'null'
+);
+
+// 3. Servicios estándar
 builder.Services.AddOpenApi();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+    });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// 4. Pipeline de HTTP
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();

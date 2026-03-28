@@ -3,6 +3,11 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+appsettings.json
+appsettings.Development.json
+bin/
+obj/
+
 # dotenv files
 .env
 
@@ -61,6 +66,7 @@ dlldata.c
 BenchmarkDotNet.Artifacts/
 
 # .NET
+appsettings.json
 project.lock.json
 project.fragment.lock.json
 artifacts/

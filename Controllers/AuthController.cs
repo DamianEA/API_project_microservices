@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Drive.Models;
+using System.Security.Claims;
 
 namespace Drive.Controllers;
 
@@ -19,9 +20,9 @@ public class AuthController : ControllerBase
     {
         if(ModelState.IsValid)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Email == userCredentials.Email);
+            var user = _context.Users.FirstOrDefault(u => u.email == userCredentials.Email);
 
-            if(user != null && Models.User.GetHash(userCredentials.Password) != user.Password)
+            if(user != null && Models.User.GetHash(userCredentials.pass) != user.pass)
                 return Ok();
         }
 
