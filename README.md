@@ -1,10 +1,13 @@
 # Drive API - Backend Service
 
 ## Descripción General
+
 Este repositorio contiene el código fuente de la API Backend para el sistema **Drive**. El servicio está diseñado para gestionar usuarios, archivos y permisos, proporcionando una interfaz robusta y escalable construida sobre el ecosistema .NET y respaldada por una base de datos PostgreSQL.
 
 ## Arquitectura
+
 El proyecto sigue un enfoque basado en controladores web (Web API) estructurado de la siguiente manera:
+
 * **Framework:** ASP.NET Core Web API (.NET 9).
 * **ORM:** Entity Framework Core (EF Core) con el proveedor de Npgsql.
 * **Base de Datos:** PostgreSQL.
@@ -26,19 +29,25 @@ Para levantar este proyecto en un entorno de desarrollo local, asegúrate de ten
 
 ---
 
-## ⚙️ Configuración del Entorno y Dependencias
+## Configuración del Entorno y Dependencias
 
 1. **Clonar el repositorio:**
+
    ```bash
    git clone <url-del-repositorio>
    cd Drive.API
 
-## Restaurar paquetes NuGet:
+## Restaurar paquetes NuGet
+
 El proyecto utiliza dependencias específicas para la conexión con PostgreSQL. Ejecuta el siguiente comando en tu terminal para instalarlas:
 
-    dotnet restore
+   ```bash
+      dotnet restore
 
 ## Para ejecutar con recarga en caliente (Hot Reload) durante el desarrollo
-    dotnet watch run
-## con scalar 
-    http://localhost:<PUERTO>/scalar/v1
+
+      dotnet watch run
+
+## con scalar
+
+      http://localhost:<PUERTO>/scalar/v1

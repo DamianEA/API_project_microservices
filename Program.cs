@@ -11,17 +11,29 @@ var connString = "Host=localhost;Username=postgres;Password=PUTA0011;Database=us
 
 // 2. Configurar el DbContext correctamente
 builder.Services.AddDbContextPool<DefaultDbContext>(opt =>
-    opt.UseNpgsql(connString) // Usamos la variable directa para evitar el error de 'null'
+    opt.UseNpgsql(connString) // Usamos la variable directa para 
 );
 
-// 3. Servicios estándar
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddOpenApi();
 
+
 builder.Services.AddControllers()
+
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
     });
+
 
 var app = builder.Build();
 
@@ -31,6 +43,12 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference();
 }
+
+app.UseCors();
+
+app.UseAuthorization();
+
+app.UseRouting();
 
 app.MapControllers();
 

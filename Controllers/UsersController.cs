@@ -43,30 +43,26 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateUser(CreateUser userData)
     {
-        // 1. Validar que el modelo sea correcto (DataAnnotations)
+
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        // 2. Mapear del DTO (CreateUser) al Modelo de BD (User)
-        // Usamos minúsculas porque así están en tu clase User.cs
         var newUser = new User
         {
             name = userData.name ?? string.Empty,
-            email = userData.Email ?? string.Empty,
-            // Hasheamos la contraseña usando el método estático que tienes en User.cs
+            email = userData.email ?? string.Empty,
             pass = Drive.Models.User.GetHash(userData.pass ?? string.Empty), 
             birth = DateTime.SpecifyKind(userData.birth, DateTimeKind.Utc),
-            roll = "User" // O el valor por defecto que prefieras
+            roll = userData.roll 
         };
 
         try 
         {
-            // 3. Guardar en la base de datos
+
             _context.Users.Add(newUser);
-            await _context.SaveChangesAsync();
-            // 4. Retornar un 201 Created
+            await _context.SaveChangesAsync();  
             return CreatedAtAction(nameof(GetUserById), new { id = newUser.id }, newUser);
         }
         catch (Exception ex)
@@ -74,4 +70,25 @@ public class UserController : ControllerBase
             return StatusCode(500, ex.InnerException?.Message ?? ex.Message);
         }
     }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] UserCredentials credentials)
+    {
+        string hashedPass = Drive.Models.User.GetHash(credentials.pass);
+        var user = await _context.Users
+            .AsNoTracking() 
+            .FirstOrDefaultAsync(u => u.email == credentials.email && u.pass == hashedPass);
+
+        if (user == null)
+        {
+            return Unauthorized(new { message = "Email o contraseña incorrectos" });
+        }
+        return Ok(new { name = user.name }); 
+    }
+}
+
+public class UserCredentials
+{
+    public string email { get; set; } = string.Empty;
+    public string pass { get; set; } = string.Empty;
 }

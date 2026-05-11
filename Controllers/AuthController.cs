@@ -20,7 +20,7 @@ public class AuthController : ControllerBase
     {
         if(ModelState.IsValid)
         {
-            var user = _context.Users.FirstOrDefault(u => u.email == userCredentials.Email);
+            var user = _context.Users.FirstOrDefault(u => u.email == userCredentials.email);
 
             if(user != null && Models.User.GetHash(userCredentials.pass) != user.pass)
                 return Ok();

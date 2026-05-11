@@ -13,7 +13,7 @@ public class User
     [Column("id")]
     public int id { get; set; }
 
-    [Required]
+    [Required]  
     [Column("name")]
     public string name { get; set; } = null!;
 
@@ -47,9 +47,9 @@ public class User
 }
 
 public class UserCredentials
-{
+{   
     [Required]
-    public string Email { get; set; } = null!;
+    public string email { get; set; } = null!;
 
     [Required]
     public string pass { get; set; } = null!;
@@ -62,7 +62,7 @@ public class CreateUser
 
     [EmailAddress(ErrorMessage = "La dirección no pertenece a un dirección de correo válida")]
     [Required(ErrorMessage = "El campo es obligatorio")]
-    public string Email { get; set; } = string.Empty;
+    public string email { get; set; } = string.Empty;
 
     [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
     [Required]
@@ -72,9 +72,12 @@ public class CreateUser
     [Required]
     public string pass { get; set; } = string.Empty;
 
-    [DataType(DataType.Password )]
-    [Required]
+    
     [Compare("pass", ErrorMessage = "Las contraseñas no coinciden")]
     [DisplayName("Password Confirm")]
     public string PasswordConfirm { get; set; } = string.Empty;
+    
+    [Required]
+    public string roll { get; set; } = string.Empty;
+
 }
